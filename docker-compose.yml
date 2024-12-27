@@ -1,0 +1,19 @@
+services:
+    postgres:
+        image: postgres:16
+        ports:
+            - "${PGSQL_PORT}:5432"
+        environment:
+            POSTGRES_DB: ${PGSQL_DATABASE}
+            POSTGRES_USER: ${PGSQL_USERNAME}
+            POSTGRES_PASSWORD: ${PGSQL_PASSWORD}
+        volumes:
+            - order-system-db-postgres:/var/lib/postgresql/data
+    redis:
+        image: redis:7.2
+        platform: linux/arm64
+        ports:
+            - "${REDIS_PORT}:6379"
+
+volumes:
+    order-system-db-postgres:
