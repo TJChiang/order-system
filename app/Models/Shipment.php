@@ -6,6 +6,8 @@ use DateTimeInterface;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property string $id
@@ -37,4 +39,14 @@ class Shipment extends Model
         'created_at' => 'datetime:' . DateTimeInterface::ATOM,
         'updated_at' => 'datetime:' . DateTimeInterface::ATOM,
     ];
+
+    public function order(): BelongsTo
+    {
+        return $this->belongsTo(Order::class, 'order_id', 'id');
+    }
+
+    public function orderItems(): HasMany
+    {
+        return $this->hasMany(OrderItem::class, 'shipment_id', 'id');
+    }
 }
