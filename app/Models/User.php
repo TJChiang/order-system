@@ -6,6 +6,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -66,5 +67,10 @@ class User extends Authenticatable
             'updated_at' => 'datetime:' . DateTimeInterface::ATOM,
             'password' => 'hashed',
         ];
+    }
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class, 'user_id', 'id');
     }
 }
