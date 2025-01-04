@@ -9,12 +9,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('order_items', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->foreignUuid('shipment_id')->comment('出貨單 ID');
+            $table->id()->primary();
+            $table->foreignId('order_id')->comment('訂單 ID');
+            $table->foreignId('product_id')->comment('商品 ID');
             $table->string('product_name', 255)->comment('商品名稱');
-            $table->string('product_sku', 100)->index('index_product_sku')->comment('商品編號 SKU');
-            $table->integer('quantity')->unsigned()->default(0)->comment('數量');
+            $table->string('sku', 50)->index('index_product_sku')->comment('商品編號 SKU');
             $table->decimal('price', 10, 2)->unsigned()->default(0)->comment('單價');
+            $table->integer('quantity')->unsigned()->default(0)->comment('數量');
             $table->decimal('total', 10, 2)->unsigned()->default(0)->comment('總價');
             $table->timestamps();
         });

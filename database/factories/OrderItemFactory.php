@@ -12,11 +12,12 @@ class OrderItemFactory extends Factory
     public function definition(): array
     {
         return [
-            'shipment_id' => $this->faker->uuid,
+            'order_id' => $this->faker->numberBetween(1, 100),
+            'product_id' => $this->faker->numberBetween(1, 100),
             'product_name' => $this->faker->name,
-            'product_sku' => $this->faker->uuid,
-            'quantity' => $this->faker->numberBetween(1, 10),
+            'sku' => $this->faker->uuid,
             'price' => $this->faker->randomFloat(2, 1, 1000),
+            'quantity' => $this->faker->numberBetween(1, 10),
             'total' => $this->faker->randomFloat(2, 1, 100000),
         ];
     }

@@ -3,18 +3,18 @@
 namespace App\Models;
 
 use DateTimeInterface;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @property string $id
- * @property string $shipment_id 出貨單 ID
+ * @property int $id
+ * @property int $order_id 訂單 ID
+ * @property int $product_id 產品 ID
  * @property string $product_name 商品名稱
- * @property string $product_sku 商品編號 SKU
- * @property int $quantity 數量
+ * @property string $sku 商品編號 SKU
  * @property float $price 單價
+ * @property int $quantity 數量
  * @property float $total 總價
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
@@ -22,12 +22,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class OrderItem extends Model
 {
     use HasFactory;
-    use HasUuids;
 
     protected $table = 'order_items';
     protected $primaryKey = 'id';
-    protected $keyType = 'string';
-    public $incrementing = false;
     protected $guarded = [];
 
     protected $casts = [
