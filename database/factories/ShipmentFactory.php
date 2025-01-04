@@ -12,8 +12,7 @@ class ShipmentFactory extends Factory
     public function definition(): array
     {
         return [
-            'id' => $this->faker->uuid,
-            'order_id' => $this->faker->uuid,
+            'order_id' => $this->faker->numberBetween(1, 100),
             'shipment_number' => $this->faker->regexify('[A-Z]{2}[0-9]{8}'),
             'courier' => $this->faker->company,
             'tracking_number' => $this->faker->regexify('[A-Z]{2}[0-9]{8}'),

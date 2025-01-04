@@ -3,15 +3,14 @@
 namespace App\Models;
 
 use DateTimeInterface;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * @property string $id
- * @property string $order_id order 外鍵
+ * @property int $id
+ * @property int $order_id order 外鍵
  * @property string $shipment_number 出貨單號
  * @property string $courier 配送公司
  * @property string $tracking_number 配送追蹤編號
@@ -25,12 +24,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Shipment extends Model
 {
     use HasFactory;
-    use HasUuids;
 
     protected $table = 'shipments';
     protected $primaryKey = 'id';
-    protected $keyType = 'string';
-    public $incrementing = false;
     protected $guarded = [];
 
     protected $casts = [

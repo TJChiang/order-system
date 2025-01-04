@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id()->primary();
             $table->string('channel', 50)->comment('銷售渠道');
             $table->string('order_number', 100)->comment('訂單編號');
-            $table->bigInteger('user_id')->unsigned()->nullable()->comment('使用者 ID');
+            $table->foreignId('user_id')->nullable()->comment('使用者 ID');
             $table->string('recipient_name', 255)->comment('收件人姓名');
             $table->string('recipient_email', 255)->nullable()->comment('收件人 Email');
             $table->string('recipient_phone', 50)->nullable()->comment('收件人電話');
