@@ -50,4 +50,9 @@ class Order extends Model
     {
         return $this->hasMany(Shipment::class, 'order_id', 'id');
     }
+
+    public function items(): HasMany
+    {
+        return $this->hasMany(OrderItem::class, 'order_id', 'id');
+    }
 }

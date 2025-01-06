@@ -18,10 +18,10 @@ return new class extends Migration
             $table->string('recipient_phone', 50)->nullable()->comment('收件人電話');
             $table->text('shipping_address')->comment('送貨地址');
             $table->tinyInteger('status')->unsigned()->default(0)->comment('訂單狀態');
-            $table->decimal('total_amount', 10, 2)->comment('訂單總金額');
-            $table->decimal('shipping_fee', 10, 2)->default(0)->comment('運費');
-            $table->decimal('discount', 10, 2)->default(0)->comment('折扣金額');
-            $table->decimal('discount_rate', 10, 2)->default(0)->comment('折扣比率');
+            $table->decimal('total_amount', 10, 2)->unsigned()->comment('訂單總金額');
+            $table->decimal('shipping_fee', 10, 2)->unsigned()->default(0)->comment('運費');
+            $table->decimal('discount', 10, 2)->unsigned()->default(0)->comment('折扣金額');
+            $table->decimal('discount_rate', 10, 2)->unsigned()->default(0)->comment('折扣比率');
             $table->string('remark', 255)->nullable()->comment('備註');
             $table->timestamp('ordered_at')->comment('訂單日期');
             $table->timestamps();

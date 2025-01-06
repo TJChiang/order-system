@@ -32,8 +32,13 @@ class OrderItem extends Model
         'updated_at' => 'datetime:' . DateTimeInterface::ATOM,
     ];
 
-    public function shipment(): BelongsTo
+    public function order(): BelongsTo
     {
-        return $this->belongsTo(Shipment::class, 'shipment_id', 'id');
+        return $this->belongsTo(Order::class, 'order_id', 'id');
+    }
+
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
     }
 }
