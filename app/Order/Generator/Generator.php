@@ -2,6 +2,7 @@
 
 namespace App\Order\Generator;
 
+use App\Models\Order;
 use App\Order\ChannelEnum;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
