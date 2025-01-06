@@ -6,6 +6,7 @@ use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property int $id
@@ -40,5 +41,13 @@ class OrderItem extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class, 'product_id', 'id');
+    }
+
+    public function shipments(): BelongsToMany
+    {
+        return $this->belongsToMany(Shipment::class, ShipmentItem::class, 'order_item_id', 'shipment_id')
+            ->using(ShipmentItem::class)
+            ->withPivot('quantity')
+            ->withTimestamps();
     }
 }

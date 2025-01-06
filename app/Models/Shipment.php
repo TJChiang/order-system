@@ -6,7 +6,7 @@ use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property int $id
@@ -26,7 +26,6 @@ class Shipment extends Model
     use HasFactory;
 
     protected $table = 'shipments';
-    protected $primaryKey = 'id';
     protected $guarded = [];
 
     protected $casts = [
@@ -41,8 +40,10 @@ class Shipment extends Model
         return $this->belongsTo(Order::class, 'order_id', 'id');
     }
 
-    public function orderItems(): HasMany
+    public function orderItems(): BelongsToMany
     {
-        return $this->hasMany(OrderItem::class, 'shipment_id', 'id');
+        return $this->belongsToMany(OrderItem::class, ShipmentItem::class, 'shipment_id', 'order_item_id')
+            ->withPivot('quantity')
+            ->withTimestamps();
     }
 }

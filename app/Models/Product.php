@@ -9,12 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property int $id
  * @property string $sku
- * @property string $name
- * @property string|null $description
- * @property float $price
- * @property int $stock
- * @property int $status
- * @property int $version
+ * @property string $name 商品名稱
+ * @property string|null $description 商品描述
+ * @property float $price 價格
+ * @property int $stock 庫存
+ * @property int $status 商品狀態
+ * @property int $version 商品版本號
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  */
