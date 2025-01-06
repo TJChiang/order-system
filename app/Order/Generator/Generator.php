@@ -29,7 +29,7 @@ abstract class Generator
         $order = Order::create([
             'channel' => $this->channel->value,
             'order_number' => $data['order_number'],
-            'user_id' => null,
+            'user_id' => $data['user_id'] ?? null,
             'recipient_name' => $data['recipient_name'],
             'recipient_email' => $data['recipient_email'] ?? null,
             'recipient_phone' => $data['recipient_phone'] ?? null,
