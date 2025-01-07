@@ -70,7 +70,7 @@ class CreateRequest extends FormRequest
                 'string',
             ],
             'data.*.ordered_at' => [
-                'required',
+                'required_unless:channel,official',
                 'date',
                 'date_format:' . DateTimeInterface::ATOM,
             ],

@@ -12,12 +12,12 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'shu' => $this->faker->uuid(),
+            'sku' => $this->faker->uuid(),
             'name' => $this->faker->name(),
             'description' => $this->faker->text(),
             'price' => $this->faker->randomFloat(2, 0, 1000),
             'stock' => $this->faker->randomNumber(),
-            'status' => $this->faker->randomNumber(),
+            'status' => $this->faker->numberBetween(0, 5),
             'version' => $this->faker->randomNumber(),
         ];
     }
