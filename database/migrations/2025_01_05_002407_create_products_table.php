@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id()->primary();
-            $table->string('sku', 50)->unique()->comment('Stock Keeping Unit');
+            $table->string('sku', 50)->comment('Stock Keeping Unit');
             $table->string('name', 255)->comment('商品名稱');
             $table->text('description')->nullable()->comment('商品描述');
             $table->decimal('price', 10, 2)->unsigned()->default(0)->comment('價格');
@@ -18,6 +18,8 @@ return new class extends Migration
             $table->unsignedTinyInteger('status')->default(0)->comment('商品狀態');
             $table->unsignedMediumInteger('version')->default(1)->comment('商品版本號');
             $table->timestamps();
+
+            $table->unique(['sku', 'version'], 'unique_sku_version');
         });
     }
 
