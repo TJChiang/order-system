@@ -2,27 +2,14 @@
 
 namespace App\Http\Requests\Order;
 
+use App\Http\Requests\FormRequest;
 use App\Order\ChannelEnum;
 use App\Rules\PhoneRule;
 use DateTimeInterface;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class CreateRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return false;
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
@@ -31,72 +18,77 @@ class CreateRequest extends FormRequest
                 'required',
                 Rule::enum(ChannelEnum::class),
             ],
-            'order_number' => [
+            'data' => [
+                'required',
+                'array',
+                'max:50',
+            ],
+            'data.*.order_number' => [
                 'string',
                 'required_unless:channel,official',
                 'max:100',
             ],
-            'recipient_name' => [
+            'data.*.recipient_name' => [
                 'required',
                 'string',
                 'max:255',
             ],
-            'recipient_email' => [
+            'data.*.recipient_email' => [
                 'nullable',
                 'string',
                 'email',
                 'max:255',
             ],
-            'recipient_phone' => [
+            'data.*.recipient_phone' => [
                 'nullable',
                 'string',
                 'max:50',
                 new PhoneRule(),
             ],
-            'shipping_address' => [
+            'data.*.shipping_address' => [
                 'required',
                 'string',
                 'max:500',
             ],
-            'shipping_fee' => [
+            'data.*.shipping_fee' => [
                 'nullable',
                 'numeric',
             ],
-            'discount' => [
+            'data.*.discount' => [
                 'nullable',
                 'numeric',
                 'min:0',
             ],
-            'discount_rate' => [
+            'data.*.discount_rate' => [
                 'nullable',
                 'numeric',
                 'min:0',
                 'max:1',
             ],
-            'remark' => [
+            'data.*.remark' => [
                 'nullable',
                 'string',
             ],
-            'ordered_at' => [
+            'data.*.ordered_at' => [
                 'required',
                 'date',
                 'date_format:' . DateTimeInterface::ATOM,
             ],
-            'items' => [
+            'data.*.items' => [
                 'required',
                 'array',
             ],
-            'items.*.product_id' => [
+            'data.*.items.*.product_id' => [
                 'required',
                 'integer',
                 'min:1'
             ],
-            'items.*.sku' => [
+            'data.*.items.*.sku' => [
                 'required',
                 'string',
                 // 'uuid',
             ],
-            'items.*.quantity' => [
+            'data.*.items.*.quantity' => [
                 'required',
                 'integer',
                 'min:0',
