@@ -53,6 +53,14 @@ class ProductRepository implements ProductRepositoryContract
         ], $columns);
     }
 
+    public function getByIds(array $ids, array $columns = ['*']): Collection
+    {
+        return $this->model->newQuery()
+            ->whereIn('id', $ids)
+            ->limit(100)
+            ->get($columns);
+    }
+
     public function create(array $data): Product
     {
         return $this->model->newQuery()->create($data);

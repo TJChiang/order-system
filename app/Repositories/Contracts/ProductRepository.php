@@ -15,6 +15,8 @@ interface ProductRepository
 
     public function getBySkuAndVersion(string $sku, int $version, array $columns = ['*']): Collection;
 
+    public function getByIds(array $ids, array $columns = ['*']): Collection;
+
     public function create(array $data): Product;
 
     public function createMany(array $data): Collection;
