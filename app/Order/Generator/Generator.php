@@ -4,12 +4,17 @@ namespace App\Order\Generator;
 
 use App\Models\Order;
 use App\Order\ChannelEnum;
+use App\Repositories\Contracts\OrderRepository;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 abstract class Generator
 {
     protected ChannelEnum $channel;
+
+    public function __construct(protected readonly OrderRepository $orderRepository)
+    {
+    }
 
     public function generate(array $data): Collection
     {
@@ -25,8 +30,7 @@ abstract class Generator
 
     protected function create(array $data): Order
     {
-        /** @var Order $order */
-        $order = Order::create([
+        $insertData = [
             'channel' => $this->channel->value,
             'order_number' => $data['order_number'],
             'user_id' => $data['user_id'] ?? null,
@@ -41,9 +45,7 @@ abstract class Generator
             'discount_rate' => $data['discount_rate'] ?? 0,
             'remark' => $data['remark'] ?? null,
             'ordered_at' => $data['ordered_at'],
-        ]);
-        $order->items()->createMany($data['items']);
-
-        return $order;
+        ];
+        return $this->orderRepository->createWithItems($insertData, $data['items']);
     }
 }

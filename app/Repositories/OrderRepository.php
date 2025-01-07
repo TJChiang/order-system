@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Order;
 use App\Repositories\Contracts\OrderRepository as OrderRepositoryContract;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
 
@@ -33,7 +34,7 @@ class OrderRepository implements OrderRepositoryContract
         }
 
         $items = empty($items) ? $data['items'] : $items;
-        $entity = $this->create($data);
+        $entity = $this->create(Arr::except($data, 'items'));
         $entity->items()->createMany($items);
         return $entity;
     }
