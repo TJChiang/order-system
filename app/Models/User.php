@@ -11,17 +11,17 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 /**
- * @property int $id
- * @property string $name
- * @property string $email
- * @property null|string $email_verified_at
- * @property null|string $phone
- * @property null|string $phone_verified_at
- * @property null|string $address
- * @property string $password
- * @property null|string $remember_token
- * @property Carbon $created_at
- * @property Carbon $updated_at
+ * @property int id
+ * @property string name
+ * @property string email
+ * @property null|string email_verified_at
+ * @property null|string phone
+ * @property null|string phone_verified_at
+ * @property null|string address
+ * @property string password
+ * @property null|string remember_token
+ * @property Carbon created_at
+ * @property Carbon updated_at
  */
 class User extends Authenticatable
 {

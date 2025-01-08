@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('recipient_email', 255)->nullable()->comment('收件人 Email');
             $table->string('recipient_phone', 50)->nullable()->comment('收件人電話');
             $table->text('shipping_address')->comment('送貨地址');
+            $table->timestamp('scheduled_shipping_time')->nullable()->comment('指定配送時間');
             $table->tinyInteger('status')->unsigned()->default(0)->comment('訂單狀態');
             $table->decimal('total_amount', 10, 2)->unsigned()->comment('訂單總金額');
             $table->decimal('shipping_fee', 10, 2)->unsigned()->default(0)->comment('運費');
