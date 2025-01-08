@@ -53,6 +53,7 @@ abstract class Generator
                     'recipient_email' => $orderData['recipient_email'] ?? null,
                     'recipient_phone' => $orderData['recipient_phone'] ?? null,
                     'shipping_address' => $orderData['shipping_address'],
+                    'scheduled_shipping_date' => $orderData['scheduled_shipping_date'] ?? null,
                     'status' => $orderData['status'],
                     'total_amount' => $totalAmount,
                     'shipping_fee' => $orderData['shipping_fee'] ?? 0,

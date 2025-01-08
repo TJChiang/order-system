@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property null|string recipient_email 收件人 Email
  * @property null|string recipient_phone 收件人電話
  * @property string shipping_address 送貨地址
- * @property null|\Carbon\Carbon scheduled_shipping_time 指定配送時間
+ * @property null|\Carbon\Carbon scheduled_shipping_date 指定配送日期
  * @property int status 訂單狀態
  * @property float total_amount 訂單總金額
  * @property float shipping_fee 運費

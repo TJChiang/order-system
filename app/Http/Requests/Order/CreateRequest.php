@@ -50,6 +50,11 @@ class CreateRequest extends FormRequest
                 'string',
                 'max:500',
             ],
+            'data.*.scheduled_shipping_date' => [
+                'nullable',
+                'date',
+                'date_format:Y-m-d',
+            ],
             'data.*.shipping_fee' => [
                 'nullable',
                 'numeric',
