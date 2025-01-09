@@ -23,6 +23,7 @@ class CreateRequest extends FormRequest
                 'array',
                 'max:50',
             ],
+            // 訂單
             'data.*.order_number' => [
                 'string',
                 'required_unless:channel,official',
@@ -79,21 +80,48 @@ class CreateRequest extends FormRequest
                 'date',
                 'date_format:' . DateTimeInterface::ATOM,
             ],
-            'data.*.items' => [
+            // 出貨單
+            'data.*.shipments' => [
+                'required',
+                'array',
+                'max:50',
+            ],
+            'data.*.shipments.*.shipment_number' => [
+                'required',
+                'string',
+                'max:100',
+            ],
+            'data.*.shipments.*.courier' => [
+                'required',
+                'string',
+                'max:100',
+            ],
+            'data.*.shipments.*.tracking_number' => [
+                'required',
+                'string',
+                'max:100',
+            ],
+            'data.*.shipments.*.remark' => [
+                'nullable',
+                'string',
+                'max:400',
+            ],
+            // 訂單項目
+            'data.*.shipments.*.items' => [
                 'required',
                 'array',
             ],
-            'data.*.items.*.product_id' => [
+            'data.*.shipments.*.items.*.product_id' => [
                 'required',
                 'integer',
                 'min:1'
             ],
-            'data.*.items.*.sku' => [
+            'data.*.shipments.*.items.*.sku' => [
                 'required',
                 'string',
                 // 'uuid',
             ],
-            'data.*.items.*.quantity' => [
+            'data.*.shipments.*.items.*.quantity' => [
                 'required',
                 'integer',
                 'min:0',
