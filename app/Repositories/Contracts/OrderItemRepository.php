@@ -3,7 +3,6 @@
 namespace App\Repositories\Contracts;
 
 use App\Models\OrderItem;
-use Illuminate\Support\Collection;
 use InvalidArgumentException;
 
 interface OrderItemRepository
@@ -13,5 +12,5 @@ interface OrderItemRepository
      */
     public function create(array $data, ?int $orderId = null): OrderItem;
 
-    public function createMany(array $data): Collection;
+    public function createMany(array $data): bool;
 }

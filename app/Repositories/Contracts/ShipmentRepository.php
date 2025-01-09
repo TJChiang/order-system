@@ -3,7 +3,6 @@
 namespace App\Repositories\Contracts;
 
 use App\Models\Shipment;
-use Illuminate\Support\Collection;
 use InvalidArgumentException;
 
 interface ShipmentRepository
@@ -13,7 +12,7 @@ interface ShipmentRepository
      */
     public function create(array $data, ?int $orderId = null): Shipment;
 
-    public function createMany(array $data): Collection;
+    public function createMany(array $data): bool;
 
     /**
      * @throws InvalidArgumentException

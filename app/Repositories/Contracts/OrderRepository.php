@@ -10,7 +10,7 @@ interface OrderRepository
 {
     public function create(array $data): Order;
 
-    public function createMany(array $data): Collection;
+    public function createMany(array $data): bool;
 
     /**
      * @throws InvalidArgumentException

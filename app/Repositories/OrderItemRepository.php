@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Models\OrderItem;
 use App\Repositories\Contracts\OrderItemRepository as OrderItemRepositoryContract;
-use Illuminate\Support\Collection;
 use InvalidArgumentException;
 
 class OrderItemRepository implements OrderItemRepositoryContract
@@ -26,8 +25,8 @@ class OrderItemRepository implements OrderItemRepositoryContract
         return $this->model->newQuery()->create($data);
     }
 
-    public function createMany(array $data): Collection
+    public function createMany(array $data): bool
     {
-        return $this->model->newQuery()->createMany($data);
+        return $this->model->newQuery()->insert($data);
     }
 }

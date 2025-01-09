@@ -19,5 +19,5 @@ interface ProductRepository
 
     public function create(array $data): Product;
 
-    public function createMany(array $data): Collection;
+    public function createMany(array $data): bool;
 }

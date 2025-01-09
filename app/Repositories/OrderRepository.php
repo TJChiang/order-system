@@ -19,9 +19,9 @@ class OrderRepository implements OrderRepositoryContract
         return $this->model->newQuery()->create($data);
     }
 
-    public function createMany(array $data): Collection
+    public function createMany(array $data): bool
     {
-        return $this->model->newQuery()->createMany($data);
+        return $this->model->newQuery()->insert($data);
     }
 
     /**
