@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use DateTimeInterface;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
@@ -18,9 +17,4 @@ class ShipmentItem extends Pivot
     protected $table = 'shipment_items';
     public $incrementing = true;
     protected $guarded = [];
-
-    protected $casts = [
-        'created_at' => 'datetime:' . DateTimeInterface::ATOM,
-        'updated_at' => 'datetime:' . DateTimeInterface::ATOM,
-    ];
 }

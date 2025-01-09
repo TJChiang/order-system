@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -27,13 +26,6 @@ class Shipment extends Model
 
     protected $table = 'shipments';
     protected $guarded = [];
-
-    protected $casts = [
-        'shipped_at' => 'datetime:' . DateTimeInterface::ATOM,
-        'delivered_at' => 'datetime:' . DateTimeInterface::ATOM,
-        'created_at' => 'datetime:' . DateTimeInterface::ATOM,
-        'updated_at' => 'datetime:' . DateTimeInterface::ATOM,
-    ];
 
     public function order(): BelongsTo
     {

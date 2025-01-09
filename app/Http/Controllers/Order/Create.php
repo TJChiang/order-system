@@ -14,7 +14,7 @@ use Throwable;
 
 class Create
 {
-    public function __invoke(CreateRequest $request, OrderGeneratorManager $orderGeneratorManager,): Response
+    public function __invoke(CreateRequest $request, OrderGeneratorManager $orderGeneratorManager): Response
     {
         $channel = $request->input('channel');
         $data = $request->input('data');

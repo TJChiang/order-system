@@ -4,7 +4,6 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Carbon\Carbon;
-use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -61,10 +60,6 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime:' . DateTimeInterface::ATOM,
-            'phone_verified_at' => 'datetime:' . DateTimeInterface::ATOM,
-            'created_at' => 'datetime:' . DateTimeInterface::ATOM,
-            'updated_at' => 'datetime:' . DateTimeInterface::ATOM,
             'password' => 'hashed',
         ];
     }

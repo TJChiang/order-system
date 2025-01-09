@@ -5,7 +5,6 @@ namespace App\Http\Requests\Order;
 use App\Http\Requests\FormRequest;
 use App\Order\ChannelEnum;
 use App\Rules\PhoneRule;
-use DateTimeInterface;
 use Illuminate\Validation\Rule;
 
 class CreateRequest extends FormRequest
@@ -78,7 +77,7 @@ class CreateRequest extends FormRequest
             'data.*.ordered_at' => [
                 'required_unless:channel,official',
                 'date',
-                'date_format:' . DateTimeInterface::ATOM,
+                'date_format:Y-m-d H:i:s',
             ],
             // 出貨單
             'data.*.shipments' => [
