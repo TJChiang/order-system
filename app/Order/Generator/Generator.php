@@ -36,7 +36,7 @@ abstract class Generator
             foreach ($data as $orderData) {
                 $orderEntity = $this->createOrder($orderData);
                 $this->createShipments($orderData['shipments'], $orderEntity);
-                $orderItemData = $this->flattenOrderItems($orderData)->toArray();
+                $orderItemData = $this->flattenOrderItems($orderData['shipments'])->toArray();
                 $totalAmount = $this->createOrderItems($orderItemData, $orderEntity, $products);
                 $orderEntity->update(['total_amount' => $totalAmount]);
                 $collection->push($orderEntity);
@@ -68,6 +68,7 @@ abstract class Generator
             'recipient_phone' => $orderData['recipient_phone'] ?? null,
             'shipping_address' => $orderData['shipping_address'],
             'scheduled_shipping_date' => $orderData['scheduled_shipping_date'] ?? null,
+            'total_amount' => 0,
             'status' => $orderData['status'],
             'shipping_fee' => $orderData['shipping_fee'] ?? 0,
             'remark' => $orderData['remark'] ?? null,
@@ -76,7 +77,7 @@ abstract class Generator
         return $this->orderRepository->create($insertData);
     }
 
-    protected function createShipments(array $shipmentData, Order $order): Collection
+    protected function createShipments(array $shipmentData, Order $order): bool
     {
         $shipmentInsertData = [];
         foreach ($shipmentData as $shipment) {
@@ -86,19 +87,20 @@ abstract class Generator
                 'courier' => $shipment['courier'],
                 'tracking_number' => $shipment['tracking_number'],
                 'status' => $shipment['status'] ?? 0,
-                'remark' => $shipment['remark'],
+                'remark' => $shipment['remark'] ?? null,
             ];
         }
         return $this->shipmentRepository->createMany($shipmentInsertData);
     }
 
-    protected function createOrderItems(array $orderItemData, Order $order, Collection $products): int
+    protected function createOrderItems(array $orderItemData, Order $order, Collection $products): float
     {
         $totalAmount = 0;
 
         foreach ($orderItemData as $item) {
             $price = $products->get($item['product_id'])->price;
-            $totalAmount += $price * $item['quantity'];
+            $total = $price * $item['quantity'];
+            $totalAmount += $total;
 
             $entity = $this->orderItemRepository->create([
                 'order_id' => $order->id,
@@ -107,6 +109,7 @@ abstract class Generator
                 'price' => $price,
                 'sku' => $item['sku'],
                 'quantity' => $item['quantity'],
+                'total' => $total,
             ]);
             $entity->shipments()->attach($entity->id, ['quantity' => $item['quantity']]);
         }
