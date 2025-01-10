@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Resources\Order;
+namespace App\Http\Resources;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class GetListResource extends JsonResource
+class OrderResource extends JsonResource
 {
     /** @var Order $resource */
     public $resource;

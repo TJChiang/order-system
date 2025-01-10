@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Order;
 
 use App\Http\Requests\Order\GetListRequest;
-use App\Http\Resources\Order\GetListResource;
+use App\Http\Resources\OrderResource;
 use App\Repositories\Contracts\OrderRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -22,7 +22,7 @@ class GetList
             $limit
         );
 
-        return GetListResource::collection($collection)
+        return OrderResource::collection($collection)
             ->additional([
                 'page' => $page,
                 'limit' => $limit,
