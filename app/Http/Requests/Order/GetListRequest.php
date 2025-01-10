@@ -25,11 +25,13 @@ class GetListRequest extends FormRequest
                 'filled',
                 'date',
                 'date_format:Y-m-d H:i:s',
+                'before:end_time',
             ],
             'end_time' => [
                 'filled',
                 'date',
                 'date_format:Y-m-d H:i:s',
+                'after:start_time',
             ],
             'status' => [
                 'filled',

@@ -22,6 +22,11 @@ class GetList
             $limit
         );
 
-        return GetListResource::collection($collection);
+        return GetListResource::collection($collection)
+            ->additional([
+                'page' => $page,
+                'limit' => $limit,
+                'count' => $collection->count(),
+            ]);
     }
 }

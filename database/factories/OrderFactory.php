@@ -16,7 +16,7 @@ class OrderFactory extends Factory
             'order_number' => $this->faker->unique()->randomLetter(),
             'recipient_name' => $this->faker->name(),
             'recipient_email' => $this->faker->email(),
-            'recipient_phone' => $this->faker->phoneNumber(),
+            'recipient_phone' => $this->faker->e164PhoneNumber(),
             'shipping_address' => $this->faker->address(),
             'status' => $this->faker->numberBetween(0, 5),
             'total_amount' => $this->faker->randomFloat(2, 10, 10000),
