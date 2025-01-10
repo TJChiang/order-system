@@ -18,7 +18,7 @@ class GetById
     {
         try {
             $order = $orderRepository->findOrFail($id);
-        } catch (ModelNotFoundException $e) {
+        } catch (ModelNotFoundException) {
             throw new DataNotFoundException("Order not found: $id");
         }
 
