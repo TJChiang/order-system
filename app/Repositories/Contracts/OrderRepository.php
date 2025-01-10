@@ -8,6 +8,13 @@ use InvalidArgumentException;
 
 interface OrderRepository
 {
+    public function getList(
+        array $filters = [],
+        array $columns = ['*'],
+        int $offset = 0,
+        int $limit = 50,
+    ): Collection;
+
     public function create(array $data): Order;
 
     public function createMany(array $data): bool;

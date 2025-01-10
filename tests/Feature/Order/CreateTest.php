@@ -17,11 +17,13 @@ use Illuminate\Support\Str;
 use PDOException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
 use Tests\TestCase;
 
 #[CoversClass(Create::class)]
+#[Group('order')]
 class CreateTest extends TestCase
 {
     use DatabaseTransactions;

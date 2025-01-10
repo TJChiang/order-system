@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -47,5 +48,26 @@ class Order extends Model
     public function items(): HasMany
     {
         return $this->hasMany(OrderItem::class, 'order_id', 'id');
+    }
+
+    public function scopeDefaultSelect(Builder $query, array $columns = []): Builder
+    {
+        return $query->select(array_merge(
+            [
+                'id',
+                'channel',
+                'order_number',
+                'user_id',
+                'recipient_name',
+                'recipient_email',
+                'recipient_phone',
+                'shipping_address',
+                'scheduled_shipping_date',
+                'status',
+                'total_amount',
+                'ordered_at'
+            ],
+            $columns,
+        ));
     }
 }

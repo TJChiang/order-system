@@ -102,7 +102,7 @@ return [
             'url' => env('PGSQL_URL_TEST'),
             'host' => env('PGSQL_HOST_TEST', '127.0.0.1'),
             'port' => env('PGSQL_PORT_TEST', '5432'),
-            'database' => env('PGSQL_DATABASE_TEST_TEST', 'laravel'),
+            'database' => env('PGSQL_DATABASE_TEST', 'laravel'),
             'username' => env('PGSQL_USERNAME_TEST', 'root'),
             'password' => env('PGSQL_PASSWORD_TEST', ''),
             'charset' => env('PGSQL_CHARSET', 'utf8'),

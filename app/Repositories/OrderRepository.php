@@ -14,6 +14,37 @@ class OrderRepository implements OrderRepositoryContract
     {
     }
 
+    public function getList(
+        array $filters = [],
+        array $columns = [],
+        int $offset = 0,
+        int $limit = 50,
+    ): Collection {
+        $query = $this->model->newQuery()
+            ->defaultSelect($columns);
+
+        if (!empty($filters['start_time'])) {
+            $query->where('ordered_at', '>=', $filters['start_time']);
+        }
+        if (!empty($filters['end_time'])) {
+            $query->where('ordered_at', '<=', $filters['end_time']);
+        }
+        if (!empty($filters['status'])) {
+            $query->where('status', $filters['status']);
+        }
+        if (!empty($filters['channel'])) {
+            $query->where('channel', $filters['channel']);
+        }
+        if (!empty($filters['order_number'])) {
+            $query->where('order_number', $filters['order_number']);
+        }
+
+        return $query->orderBy('ordered_at', 'desc')
+            ->limit($limit)
+            ->offset($offset)
+            ->get();
+    }
+
     public function create(array $data): Order
     {
         return $this->model->newQuery()->create($data);
