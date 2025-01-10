@@ -9,16 +9,17 @@ use InvalidArgumentException;
 
 interface OrderRepository
 {
-    public function find(int $id): ?Order;
+    public function find(int $id, array $with = []): ?Order;
 
     /**
      * @throws ModelNotFoundException
      */
-    public function findOrFail(int $id): Order;
+    public function findOrFail(int $id, array $with = []): Order;
 
     public function getList(
         array $filters = [],
-        array $columns = ['*'],
+        array $columns = [],
+        array $with = [],
         int $offset = 0,
         int $limit = 50,
     ): Collection;

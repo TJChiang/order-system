@@ -16,22 +16,27 @@ class OrderRepository implements OrderRepositoryContract
     {
     }
 
-    public function find(int $id): ?Order
+    public function find(int $id, array $with = []): ?Order
     {
-        return $this->model->newQuery()->find($id);
+        return $this->model->newQuery()
+            ->with($with)
+            ->find($id);
     }
 
     /**
      * @throws ModelNotFoundException
      */
-    public function findOrFail(int $id): Order
+    public function findOrFail(int $id, array $with = []): Order
     {
-        return $this->model->newQuery()->findOrFail($id);
+        return $this->model->newQuery()
+            ->with($with)
+            ->findOrFail($id);
     }
 
     public function getList(
         array $filters = [],
         array $columns = [],
+        array $with = [],
         int $offset = 0,
         int $limit = 50,
     ): Collection {
@@ -54,7 +59,8 @@ class OrderRepository implements OrderRepositoryContract
             $query->where('order_number', $filters['order_number']);
         }
 
-        return $query->orderBy('ordered_at', 'desc')
+        return $query->with($with)
+            ->orderBy('ordered_at', 'desc')
             ->limit($limit)
             ->offset($offset)
             ->get();

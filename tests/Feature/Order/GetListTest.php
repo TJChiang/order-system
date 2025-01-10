@@ -4,6 +4,9 @@ namespace Tests\Feature\Order;
 
 use App\Http\Controllers\Order\GetList;
 use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\Shipment;
+use App\Models\ShipmentItem;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -164,6 +167,64 @@ class GetListTest extends TestCase
                     'id' => 3,
                     'order_number' => 'whatever-3',
                     'status' => 3,
+                ],
+            )
+            ->create();
+
+        Shipment::factory(3)
+            ->sequence(
+                [
+                    'id' => 1,
+                    'order_id' => 1,
+                ],
+                [
+                    'id' => 2,
+                    'order_id' => 1,
+                ],
+                [
+                    'id' => 3,
+                    'order_id' => 3,
+                ],
+            )
+            ->create();
+
+        OrderItem::factory(4)
+            ->sequence(
+                [
+                    'id' => 1,
+                    'order_id' => 1,
+                ],
+                [
+                    'id' => 2,
+                    'order_id' => 3,
+                ],
+                [
+                    'id' => 3,
+                    'order_id' => 1,
+                ],
+                [
+                    'id' => 4,
+                    'order_id' => 2,
+                ],
+            )
+            ->create();
+
+        ShipmentItem::factory(3)
+            ->sequence(
+                [
+                    'id' => 1,
+                    'shipment_id' => 1,
+                    'order_item_id' => 1,
+                ],
+                [
+                    'id' => 2,
+                    'shipment_id' => 2,
+                    'order_item_id' => 3,
+                ],
+                [
+                    'id' => 3,
+                    'shipment_id' => 1,
+                    'order_item_id' => 3,
                 ],
             )
             ->create();

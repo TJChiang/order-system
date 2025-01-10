@@ -18,6 +18,7 @@ class GetList
         $collection = $orderRepository->getList(
             $request->validated(),
             [],
+            ['shipments.orderItems'],
             $offset,
             $limit
         );

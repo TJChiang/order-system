@@ -17,7 +17,7 @@ class GetById
     public function __invoke(string $id, Request $request, OrderRepository $orderRepository): JsonResource
     {
         try {
-            $order = $orderRepository->findOrFail($id);
+            $order = $orderRepository->findOrFail($id, ['shipments.orderItems']);
         } catch (ModelNotFoundException) {
             throw new DataNotFoundException("Order not found: $id");
         }
