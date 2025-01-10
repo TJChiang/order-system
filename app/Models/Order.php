@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 /**
  * @property int id
@@ -48,6 +49,18 @@ class Order extends Model
     public function items(): HasMany
     {
         return $this->hasMany(OrderItem::class, 'order_id', 'id');
+    }
+
+    public function shipmentItems(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            ShipmentItem::class,
+            Shipment::class,
+            'order_id',
+            'shipment_id',
+            'id',
+            'id'
+        );
     }
 
     public function scopeDefaultSelect(Builder $query, array $columns = []): Builder

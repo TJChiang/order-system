@@ -7,6 +7,7 @@ use App\Repositories\Contracts\OrderRepository as OrderRepositoryContract;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
 
 class OrderRepository implements OrderRepositoryContract
@@ -97,5 +98,20 @@ class OrderRepository implements OrderRepositoryContract
         }
 
         return $orderCollection;
+    }
+
+    public function deleteById(int $id): void
+    {
+        $order = $this->model->newQuery()->find($id);
+        if ($order === null) {
+            return;
+        }
+
+        DB::transaction(function () use ($order) {
+            $order->shipmentItems()->delete();
+            $order->shipments()->delete();
+            $order->items()->delete();
+            $order->delete();
+        });
     }
 }

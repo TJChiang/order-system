@@ -36,4 +36,6 @@ interface OrderRepository
      * @throws InvalidArgumentException
      */
     public function createManyWithItems(array $data): Collection;
+
+    public function deleteById(int $id): void;
 }
