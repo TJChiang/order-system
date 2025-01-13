@@ -12,9 +12,9 @@ class ProductRepository implements ProductRepositoryContract
     {
     }
 
-    public function get(array $filter = [], array $columns = ['*']): Collection
+    public function get(array $filter = [], array $columns = ['*'], array $with = []): Collection
     {
-        $query = $this->model->newQuery();
+        $query = $this->model->newQuery()->with($with);
 
         if (isset($filter['id'])) {
             $query->where('id', $filter['id']);
@@ -30,6 +30,12 @@ class ProductRepository implements ProductRepositoryContract
         }
         if (isset($filter['version'])) {
             $query->where('version', $filter['version']);
+        }
+        if (isset($filter['limit'])) {
+            $query->limit($filter['limit']);
+        }
+        if (isset($filter['offset'])) {
+            $query->offset($filter['offset']);
         }
 
         return $query->get($columns);

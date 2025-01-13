@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 
 interface ProductRepository
 {
-    public function get(array $filter = [], array $columns = ['*']): Collection;
+    public function get(array $filter = [], array $columns = ['*'], array $with = []): Collection;
 
     public function find(int $id, array $columns = ['*'], array $with = []): ?Product;
 
