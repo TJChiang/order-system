@@ -20,4 +20,6 @@ interface ProductRepository
     public function create(array $data): Product;
 
     public function createMany(array $data): bool;
+
+    public function deleteById(array|int $id): void;
 }

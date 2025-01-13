@@ -70,4 +70,13 @@ class ProductRepository implements ProductRepositoryContract
     {
         return $this->model->newQuery()->insert($data);
     }
+
+    public function deleteById(array|int $id): void
+    {
+        if (is_int($id)) {
+            $id = [$id];
+        }
+
+        $this->model->newQuery()->whereIn('id', $id)->delete();
+    }
 }
