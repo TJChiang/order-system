@@ -48,14 +48,13 @@ RUN set -xe && \
 
 WORKDIR /source
 
+COPY . .
+COPY ./.docker/entrypoint.sh /entrypoint.sh
+
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 COPY ./composer.* .
-RUN composer install --no-dev --no-scripts --no-interaction --no-progress --optimize-autoloader
+RUN composer install --no-dev --no-interaction --no-progress --optimize-autoloader
 RUN composer check-platform-reqs
-
-COPY . .
-
-COPY ./.docker/entrypoint.sh /entrypoint.sh
 
 EXPOSE 8080
 

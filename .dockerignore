@@ -1,0 +1,14 @@
+/build
+
+/.git
+/.github
+
+/vendor
+/tests
+.editorconfig
+.env
+.gitattributes
+.gitignore
+.phpunit.result.cache
+phpunit.xml
+*.md
