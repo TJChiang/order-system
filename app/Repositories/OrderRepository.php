@@ -106,6 +106,70 @@ class OrderRepository implements OrderRepositoryContract
         return $orderCollection;
     }
 
+    /**
+     * @throws ModelNotFoundException
+     */
+    public function updateById(int $id, array $data): Order
+    {
+        $order = $this->model->newQuery()->find($id);
+        if ($order === null) {
+            throw new ModelNotFoundException();
+        }
+
+        if (!empty($data['recipient_name'])) {
+            $order->recipient_name = $data['recipient_name'];
+        }
+        if (!empty($data['recipient_email'])) {
+            $order->recipient_email = $data['recipient_email'];
+        }
+        if (!empty($data['recipient_phone'])) {
+            $order->recipient_phone = $data['recipient_phone'];
+        }
+        if (!empty($data['shipping_address'])) {
+            $order->shipping_address = $data['shipping_address'];
+        }
+        if (!empty($data['scheduled_shipping_date'])) {
+            $order->scheduled_shipping_date = $data['scheduled_shipping_date'];
+        }
+        if (isset($data['status']) && $data['status'] >= 0) {
+            $order->status = $data['status'];
+        }
+        if (isset($data['remark'])) {
+            $order->remark = $data['remark'];
+        }
+
+        $order->save();
+        return $order;
+    }
+
+    public function updateByEntity(Order $order, array $data): Order
+    {
+        if (!empty($data['recipient_name'])) {
+            $order->recipient_name = $data['recipient_name'];
+        }
+        if (!empty($data['recipient_email'])) {
+            $order->recipient_email = $data['recipient_email'];
+        }
+        if (!empty($data['recipient_phone'])) {
+            $order->recipient_phone = $data['recipient_phone'];
+        }
+        if (!empty($data['shipping_address'])) {
+            $order->shipping_address = $data['shipping_address'];
+        }
+        if (!empty($data['scheduled_shipping_date'])) {
+            $order->scheduled_shipping_date = $data['scheduled_shipping_date'];
+        }
+        if (isset($data['status']) && $data['status'] >= 0) {
+            $order->status = $data['status'];
+        }
+        if (isset($data['remark'])) {
+            $order->remark = $data['remark'];
+        }
+
+        $order->save();
+        return $order;
+    }
+
     public function deleteById(int $id): void
     {
         $order = $this->model->newQuery()->find($id);

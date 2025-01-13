@@ -38,5 +38,12 @@ interface OrderRepository
      */
     public function createManyWithItems(array $data): Collection;
 
+    /**
+     * @throws ModelNotFoundException
+     */
+    public function updateById(int $id, array $data): Order;
+
+    public function updateByEntity(Order $order, array $data): Order;
+
     public function deleteById(int $id): void;
 }
