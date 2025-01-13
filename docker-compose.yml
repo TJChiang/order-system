@@ -5,6 +5,10 @@ services:
             dockerfile: Dockerfile
         ports:
             - "${APP_PORT}:8080"
+        environment:
+            - DB_HOST=host.docker.internal
+            - PGSQL_HOST=host.docker.internal
+            - REDIS_HOST=host.docker.internal
         depends_on:
             - postgres
             - redis
@@ -23,6 +27,13 @@ services:
         platform: linux/arm64
         ports:
             - "${REDIS_PORT}:6379"
+
+networks:
+    default:
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.16.100.0/24
 
 volumes:
     order-system-db-postgres:
