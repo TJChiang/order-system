@@ -49,6 +49,7 @@ class UpdateByIdRequest extends FormRequest
                 'max:400',
             ],
             // 出貨單
+            // 若無 shipments，則表示不更新；反之，必須出現該訂單的所有出貨單
             'shipments' => [
                 'filled',
                 'array',
@@ -57,14 +58,11 @@ class UpdateByIdRequest extends FormRequest
             'shipments.*.id' => [
                 'filled',
                 'integer',
-                'required_with:' . implode(',', [
-                    'shipments.*.courier',
-                    'shipments.*.tracking_number',
-                    'shipments.*.status',
-                    'shipments.*.shipped_at',
-                    'shipments.*.delivered_at',
-                    'shipments.*.remark',
-                ]),
+            ],
+            'shipments.*.shipment_number' => [
+                'required_without:shipments.*.id',
+                'string',
+                'max:100',
             ],
             'shipments.*.courier' => [
                 'filled',
@@ -97,21 +95,23 @@ class UpdateByIdRequest extends FormRequest
                 'max:400',
             ],
             // 訂單項目
+            // 想像上品項是使用者產生的，後台應該不能變動，頂多調整要出貨的數量
+            // 若無 items，則表示不更新；反之，必須出現該出貨單的所有品項
+            // 若有品項，則數量必須大於 1
             'shipments.*.items' => [
                 'filled',
                 'array',
             ],
-            'shipments.*.items.*.product_id' => [
-                'required_with:shipments.*.items.*.quantity',
+            'shipments.*.items.*.id' => [
                 'filled',
                 'integer',
                 'min:1',
             ],
             'shipments.*.items.*.quantity' => [
-                'required_with:shipments.*.items.*.product_id',
+                'required_with:shipments.*.items.*.id',
                 'filled',
                 'integer',
-                'min:0',
+                'min:1',
             ],
         ];
     }

@@ -5,10 +5,12 @@ namespace App\Providers;
 use App\Repositories\Contracts\OrderItemRepository as OrderItemRepositoryContract;
 use App\Repositories\Contracts\OrderRepository as OrderRepositoryContract;
 use App\Repositories\Contracts\ProductRepository as ProductRepositoryContract;
+use App\Repositories\Contracts\ShipmentItemRepository as ShipmentItemRepositoryContract;
 use App\Repositories\Contracts\ShipmentRepository as ShipmentRepositoryContract;
 use App\Repositories\OrderItemRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\ProductRepository;
+use App\Repositories\ShipmentItemRepository;
 use App\Repositories\ShipmentRepository;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
@@ -22,6 +24,7 @@ class RepositoryServiceProvider extends ServiceProvider implements DeferrablePro
             OrderItemRepositoryContract::class,
             ProductRepositoryContract::class,
             ShipmentRepositoryContract::class,
+            ShipmentItemRepositoryContract::class,
         ];
     }
 
@@ -45,6 +48,11 @@ class RepositoryServiceProvider extends ServiceProvider implements DeferrablePro
         $this->app->singleton(
             ShipmentRepositoryContract::class,
             fn () => $this->app->make(ShipmentRepository::class),
+        );
+
+        $this->app->singleton(
+            ShipmentItemRepositoryContract::class,
+            fn () => $this->app->make(ShipmentItemRepository::class),
         );
     }
 
