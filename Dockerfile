@@ -1,6 +1,7 @@
 FROM php:8.3
 
 # Set build deps
+# Laravel 需要 zip 擴展 => libzip-dev
 ENV BUILD_DEPS \
         libpq-dev \
         libsqlite3-dev \
@@ -8,6 +9,7 @@ ENV BUILD_DEPS \
         libgmp-dev \
         libssl-dev \
         libxml2-dev \
+        libzip-dev \
         pkg-config \
         rsyslog
 
@@ -17,6 +19,7 @@ RUN set -xe && \
             apt-get update && \
             apt-get install --yes --no-install-recommends --no-install-suggests \
                 libpq5 \
+                unzip \
                 ${BUILD_DEPS} \
         && \
             docker-php-ext-install \
@@ -27,6 +30,7 @@ RUN set -xe && \
                 gmp \
                 soap \
                 sockets \
+                zip \
         && \
             pecl install \
                 openswoole-22.1.2 \
@@ -38,6 +42,7 @@ RUN set -xe && \
         && \
             apt-get remove --purge -y ${BUILD_DEPS} && \
             apt-get autoremove --purge -y && \
+            apt-get clean && \
             rm -r /var/lib/apt/lists/* && \
             php -m
 
@@ -54,6 +59,7 @@ COPY ./.docker/entrypoint.sh /entrypoint.sh
 
 EXPOSE 8080
 
+RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
 CMD ["php", "artisan", "--host=0.0.0.0", "--port=8080", "serve"]

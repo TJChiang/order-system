@@ -4,4 +4,4 @@ set -xe
 
 php artisan optimize --quiet
 
-exec $@
+exec "$@"
