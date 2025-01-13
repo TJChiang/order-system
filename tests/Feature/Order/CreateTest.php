@@ -352,7 +352,7 @@ class CreateTest extends TestCase
                     'order_number' => Str::uuid()->toString(),
                     'recipient_name' => 'whatever-name',
                     'shipping_address' => 'whatever-address',
-                    'ordered_at' => CarbonImmutable::parse('2000-01-01 00:00:00')->toDate(),
+                    'ordered_at' => CarbonImmutable::parse('2000-01-01 00:00:00')->toDateTimeString(),
                     'shipments' => [[
                         'shipment_number' => Str::uuid()->toString(),
                         'courier' => 'whatever-courier',
