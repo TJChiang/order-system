@@ -9,7 +9,12 @@ interface ProductRepository
 {
     public function get(array $filter = [], array $columns = ['*']): Collection;
 
-    public function find(int $id, array $columns = ['*']): Product;
+    public function find(int $id, array $columns = ['*'], array $with = []): ?Product;
+
+    /**
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    public function findOrFailed(int $id, array $columns = ['*'], array $with = []): Product;
 
     public function getBySku(string $sku, array $columns = ['*']): Collection;
 

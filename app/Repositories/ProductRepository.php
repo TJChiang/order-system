@@ -35,9 +35,14 @@ class ProductRepository implements ProductRepositoryContract
         return $query->get($columns);
     }
 
-    public function find(int $id, array $columns = ['*']): Product
+    public function find(int $id, array $columns = ['*'], array $with = []): ?Product
     {
-        return $this->model->newQuery()->find($id, $columns);
+        return $this->model->newQuery()->with($with)->find($id, $columns);
+    }
+
+    public function findOrFailed(int $id, array $columns = ['*'], array $with = []): Product
+    {
+        return $this->model->newQuery()->with($with)->findOrFail($id, $columns);
     }
 
     public function getBySku(string $sku, array $columns = ['*']): Collection
