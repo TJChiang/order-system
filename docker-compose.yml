@@ -1,4 +1,13 @@
 services:
+    order-system:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - "${APP_PORT}:8080"
+        depends_on:
+            - postgres
+            - redis
     postgres:
         image: postgres:16
         ports:
