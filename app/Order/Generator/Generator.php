@@ -3,6 +3,7 @@
 namespace App\Order\Generator;
 
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Order\ChannelEnum;
 use App\Repositories\Contracts\OrderItemRepository;
 use App\Repositories\Contracts\OrderRepository;
@@ -14,6 +15,8 @@ use Illuminate\Support\Facades\DB;
 abstract class Generator
 {
     protected ChannelEnum $channel;
+
+    protected float $totalAmountPerOrder = 0;
 
     public function __construct(
         protected readonly OrderRepository $orderRepository,
@@ -34,11 +37,11 @@ abstract class Generator
             $collection = collect([]);
 
             foreach ($data as $orderData) {
+                $this->totalAmountPerOrder = 0;
+
                 $orderEntity = $this->createOrder($orderData);
-                $this->createShipments($orderData['shipments'], $orderEntity);
-                $orderItemData = $this->flattenOrderItems($orderData['shipments'])->toArray();
-                $totalAmount = $this->createOrderItems($orderItemData, $orderEntity, $products);
-                $orderEntity->update(['total_amount' => $totalAmount]);
+                $this->createShipments($orderData['shipments'], $orderEntity, $products);
+                $orderEntity->update(['total_amount' => $this->totalAmountPerOrder]);
                 $collection->push($orderEntity);
             }
             return $collection;
@@ -77,44 +80,41 @@ abstract class Generator
         return $this->orderRepository->create($insertData);
     }
 
-    protected function createShipments(array $shipmentData, Order $order): bool
+    protected function createShipments(array $shipmentData, Order $order, Collection $products): void
     {
-        $shipmentInsertData = [];
         foreach ($shipmentData as $shipment) {
-            $shipmentInsertData[] = [
+            $orderItems = [];
+            $entity = $this->shipmentRepository->create([
                 'order_id' => $order->id,
                 'shipment_number' => $shipment['shipment_number'],
                 'courier' => $shipment['courier'],
                 'tracking_number' => $shipment['tracking_number'],
                 'status' => $shipment['status'] ?? 0,
                 'remark' => $shipment['remark'] ?? null,
-            ];
+            ]);
+            foreach ($shipment['items'] as $item) {
+                $orderItemEntity = $this->createOrderItem($item, $order, $products);
+                $orderItems[$orderItemEntity->id] = ['quantity' => $orderItemEntity->quantity];
+            }
+            $entity->orderItems()->attach($orderItems);
         }
-        return $this->shipmentRepository->createMany($shipmentInsertData);
     }
 
-    protected function createOrderItems(array $orderItemData, Order $order, Collection $products): float
+    protected function createOrderItem(array $orderItemData, Order $order, Collection $products): OrderItem
     {
-        $totalAmount = 0;
+        $price = $products->get($orderItemData['product_id'])->price;
+        $total = $price * $orderItemData['quantity'];
+        $this->totalAmountPerOrder += $total;
 
-        foreach ($orderItemData as $item) {
-            $price = $products->get($item['product_id'])->price;
-            $total = $price * $item['quantity'];
-            $totalAmount += $total;
-
-            $entity = $this->orderItemRepository->create([
-                'order_id' => $order->id,
-                'product_id' => $item['product_id'],
-                'product_name' => $products->get($item['product_id'])->name,
-                'price' => $price,
-                'sku' => $item['sku'],
-                'quantity' => $item['quantity'],
-                'total' => $total,
-            ]);
-            $entity->shipments()->attach($entity->id, ['quantity' => $item['quantity']]);
-        }
-
-        return $totalAmount;
+        return $this->orderItemRepository->create([
+            'order_id' => $order->id,
+            'product_id' => $orderItemData['product_id'],
+            'product_name' => $products->get($orderItemData['product_id'])->name,
+            'price' => $price,
+            'sku' => $orderItemData['sku'],
+            'quantity' => $orderItemData['quantity'],
+            'total' => $total,
+        ]);
     }
 
     protected function getProducts(array $orders): Collection
