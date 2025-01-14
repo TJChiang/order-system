@@ -16,6 +16,8 @@ interface ProductRepository
      */
     public function findOrFailed(int $id, array $columns = ['*'], array $with = []): Product;
 
+    public function findLastVersion(string $sku, array $columns = ['*'], array $with = []): ?Product;
+
     public function getBySku(string $sku, array $columns = ['*']): Collection;
 
     public function getBySkuAndVersion(string $sku, int $version, array $columns = ['*']): Collection;
@@ -25,6 +27,13 @@ interface ProductRepository
     public function create(array $data): Product;
 
     public function createMany(array $data): bool;
+
+    /**
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    public function updateById(int $id, array $data): void;
+
+    public function updateByEntity(Product $entity, array $data): void;
 
     public function deleteById(array|int $id): void;
 }

@@ -51,6 +51,15 @@ class ProductRepository implements ProductRepositoryContract
         return $this->model->newQuery()->with($with)->findOrFail($id, $columns);
     }
 
+    public function findLastVersion(string $sku, array $columns = ['*'], array $with = []): ?Product
+    {
+        return $this->model->newQuery()
+            ->with($with)
+            ->where('sku', $sku)
+            ->orderBy('version', 'desc')
+            ->first($columns);
+    }
+
     public function getBySku(string $sku, array $columns = ['*']): Collection
     {
         return $this->get(['sku' => $sku], $columns);
@@ -80,6 +89,17 @@ class ProductRepository implements ProductRepositoryContract
     public function createMany(array $data): bool
     {
         return $this->model->newQuery()->insert($data);
+    }
+
+    public function updateById(int $id, array $data): void
+    {
+        $entity = $this->findOrFailed($id);
+        $entity->update($data);
+    }
+
+    public function updateByEntity(Product $entity, array $data): void
+    {
+        $entity->update($data);
     }
 
     public function deleteById(array|int $id): void
