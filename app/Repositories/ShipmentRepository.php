@@ -31,42 +31,59 @@ class ShipmentRepository implements ShipmentRepositoryContract
             : $this->get(['shipment_numbers' => $shipmentNumber], $columns, $with);
     }
 
-    public function get(array $filter = [], array $columns = ['*'], array $with = []): Collection
-    {
+    public function get(
+        array $filter = [],
+        array $columns = ['*'],
+        array $with = [],
+        int $offset = 0,
+        int $limit = 100,
+    ): Collection {
         $query = $this->model->newQuery();
 
         if (!empty($with)) {
             $query->with($with);
         }
         if (!empty($filter['id'])) {
-            $query->where('id', $filter['id']);
-        }
-        if (!empty($filter['ids'])) {
-            $query->whereIn('id', $filter['ids']);
+            is_array($filter['id'])
+                ? $query->whereIn('id', $filter['id'])
+                : $query->where('id', $filter['id']);
         }
         if (!empty($filter['order_id'])) {
             $query->where('order_id', $filter['order_id']);
         }
         if (!empty($filter['shipment_number'])) {
-            $query->where('shipment_number', $filter['shipment_number']);
+            is_array($filter['shipment_number'])
+                ? $query->whereIn('shipment_number', $filter['shipment_number'])
+                : $query->where('shipment_number', $filter['shipment_number']);
         }
-        if (!empty($filter['shipment_numbers'])) {
-            $query->whereIn('shipment_number', $filter['shipment_numbers']);
-        }
-        if (!empty($filter['status'])) {
+        if (isset($filter['status']) && is_numeric($filter['status'])) {
             $query->where('status', $filter['status']);
         }
         if (!empty($filter['courier'])) {
             $query->where('courier', $filter['courier']);
         }
         if (!empty($filter['tracking_number'])) {
-            $query->where('tracking_number', $filter['tracking_number']);
+            is_array($filter['tracking_number'])
+                ? $query->whereIn('tracking_number', $filter['tracking_number'])
+                : $query->where('tracking_number', $filter['tracking_number']);
         }
-        if (!empty($filter['tracking_numbers'])) {
-            $query->whereIn('tracking_number', $filter['tracking_numbers']);
+        if (!empty($filter['start_shipped_time'])) {
+            $query->where('shipped_at', '>=', $filter['start_shipped_time']);
+        }
+        if (!empty($filter['end_shipped_time'])) {
+            $query->where('shipped_at', '<=', $filter['end_shipped_time']);
+        }
+        if (!empty($filter['start_delivered_time'])) {
+            $query->where('delivered_at', '>=', $filter['start_delivered_time']);
+        }
+        if (!empty($filter['end_delivered_time'])) {
+            $query->where('delivered_at', '<=', $filter['end_delivered_time']);
         }
 
-        return $query->get($columns);
+        return $query
+            ->offset($offset)
+            ->limit($limit)
+            ->get($columns);
     }
 
     /**

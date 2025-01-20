@@ -16,7 +16,13 @@ interface ShipmentRepository
         array $with = []
     ): Collection;
 
-    public function get(array $filter = [], array $columns = ['*'], array $with = []): Collection;
+    public function get(
+        array $filter = [],
+        array $columns = ['*'],
+        array $with = [],
+        int $offset = 0,
+        int $limit = 100,
+    ): Collection;
 
     /**
      * @throws InvalidArgumentException

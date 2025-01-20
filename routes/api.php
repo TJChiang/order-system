@@ -10,6 +10,7 @@ use App\Http\Controllers\Product\DeleteById as DeleteProductById;
 use App\Http\Controllers\Product\GetById as GetProductById;
 use App\Http\Controllers\Product\GetList as GetProductList;
 use App\Http\Controllers\Product\UpdateById as UpdateProductById;
+use App\Http\Controllers\Shipment\GetList as GetShipmentList;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/hi', function () {
@@ -30,4 +31,8 @@ Route::prefix('/product')->name('product.')->group(function () {
     Route::post('/', CreateProduct::class)->name('create');
     Route::put('/{id}', UpdateProductById::class)->name('update_by_id');
     Route::delete('/{id}', DeleteProductById::class)->name('delete_by_id');
+});
+
+Route::prefix('/shipment')->name('shipment.')->group(function () {
+    Route::get('/', GetShipmentList::class)->name('list');
 });
