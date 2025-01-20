@@ -11,7 +11,11 @@ ENV BUILD_DEPS \
         libxml2-dev \
         libzip-dev \
         pkg-config \
-        rsyslog
+        rsyslog \
+        libxrender1 \
+        libfontconfig1 \
+        libjpeg62-turbo-dev \
+        libpng-dev
 
 # See https://laravel.com/docs/11.x/deployment#server-requirements
 # See https://pecl.php.net/package/openswoole
@@ -20,6 +24,7 @@ RUN set -xe && \
             apt-get install --yes --no-install-recommends --no-install-suggests \
                 libpq5 \
                 unzip \
+                fonts-dejavu \
                 ${BUILD_DEPS} \
         && \
             docker-php-ext-install \

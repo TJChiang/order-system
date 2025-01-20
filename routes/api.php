@@ -10,6 +10,7 @@ use App\Http\Controllers\Product\DeleteById as DeleteProductById;
 use App\Http\Controllers\Product\GetById as GetProductById;
 use App\Http\Controllers\Product\GetList as GetProductList;
 use App\Http\Controllers\Product\UpdateById as UpdateProductById;
+use App\Http\Controllers\Shipment\Export as ExportShipment;
 use App\Http\Controllers\Shipment\GetList as GetShipmentList;
 use Illuminate\Support\Facades\Route;
 
@@ -35,4 +36,5 @@ Route::prefix('/product')->name('product.')->group(function () {
 
 Route::prefix('/shipment')->name('shipment.')->group(function () {
     Route::get('/', GetShipmentList::class)->name('list');
+    Route::get('/export', ExportShipment::class)->name('export');
 });

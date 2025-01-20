@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -35,6 +36,16 @@ class Order extends Model
 
     protected $table = 'orders';
     protected $guarded = [];
+
+    protected function casts(): array
+    {
+        return [
+            'scheduled_shipping_date' => 'date:Y-m-d',
+            'ordered_at' => 'datetime:Y-m-d H:i:s',
+            'created_at' => 'datetime:Y-m-d H:i:s',
+            'updated_at' => 'datetime:Y-m-d H:i:s',
+        ];
+    }
 
     public function user(): BelongsTo
     {
