@@ -5,6 +5,7 @@
 - [API 規格](#api-規格)
     - [建立與匯入訂單](#建立與匯入訂單)
 - [資料表關係圖](#資料表關係圖)
+- [服務建置](#服務建置)
 
 ## API 規格
 
@@ -459,3 +460,12 @@ erDiagram
     shipments }|--|{ order_items : "many to many"
     order_items ||--|| products : "one to one"
 ```
+
+## 服務建置
+
+1. 先到 [Google Fonts](https://fonts.google.com/noto/specimen/Noto+Sans+TC) 下載 Noto Sans TC 字型
+2. 放到 `storage/fonts/NotoSansTC`
+3. 啟動服務
+    ```bash
+    docker compose up -d
+    ```
